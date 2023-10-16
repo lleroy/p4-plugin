@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.p4.filters;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -7,28 +8,28 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import java.io.Serializable;
 import java.util.List;
 
-public class FilterPerChangeImpl extends Filter implements Serializable {
-
+public class FilterLatestWithPinImpl extends Filter implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private final boolean perChange;
+	private final boolean latestWithPin;
 
 	@DataBoundConstructor
-	public FilterPerChangeImpl(boolean perChange) {
-		this.perChange = perChange;
+	public FilterLatestWithPinImpl(boolean latestWithPin) {
+		this.latestWithPin = latestWithPin;
 	}
 
-	public boolean isPerChange() {
-		return perChange;
+	public boolean isLatestWithPin() {
+		return latestWithPin;
 	}
 
 	@Extension
-	@Symbol("incremental")
+	@Symbol("latestWithPin")
 	public static final class DescriptorImpl extends FilterDescriptor {
 
+		@NonNull
 		@Override
 		public String getDisplayName() {
-			return "Polling per change";
+			return "Polling latest change with pin";
 		}
 	}
 
@@ -37,8 +38,8 @@ public class FilterPerChangeImpl extends Filter implements Serializable {
 			return false;
 		}
 		for (Filter f : filter) {
-			if (f instanceof FilterPerChangeImpl) {
-				if (((FilterPerChangeImpl) f).isPerChange()) {
+			if (f instanceof FilterLatestWithPinImpl) {
+				if (((FilterLatestWithPinImpl) f).isLatestWithPin()) {
 					return true;
 				}
 			}
